@@ -18,10 +18,17 @@ app.use(cookieParser());
 app.use(express.json());
 
 
+// app.use(
+//   cors({
+//     origin: process.env.CLIENT_URL || "https://to-do-client-phi.vercel.app" || "*",
+//     credentials: true,
+//   })
+// );
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "https://to-do-client-phi.vercel.app" || "*",
-    credentials: true,
+    origin: "*", // Allows all origins
+    credentials: true, // Allow credentials (cookies, authorization headers)
   })
 );
 
