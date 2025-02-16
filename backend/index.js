@@ -2,27 +2,41 @@ import express from "express";
 import { connectDB } from "./config/db.js";
 import authRoute from "./routes/auth.js";
 import listRoute from "./routes/list.js";
-import cors from 'cors'
+import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 
-
-const app = express();
 dotenv.config();
 
-//middlewares
+const app = express();
+
+// Connect to database
+connectDB();
+
+// Middleware
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors({
+app.use(
+  cors({
     origin: process.env.CLIENT_URL,
     credentials: true,
-}));
+  })
+);
 
-app.use('/api/auth', authRoute);
-app.use('/api/list', listRoute);
+// Routes
+app.use("/api/auth", authRoute);
+app.use("/api/list", listRoute);
 
-
-app.listen(8000, () => {
-    connectDB();
-    console.log("Server is running on port 8000");
+// Root route for testing
+app.get("/", (req, res) => {
+  res.send("Backend is working!");
 });
+
+// Start server
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+// Export app for Vercel
+export default app;
