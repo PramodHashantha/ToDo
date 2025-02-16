@@ -16,12 +16,26 @@ connectDB();
 // Middleware
 app.use(cookieParser());
 app.use(express.json());
+
+// Dynamically allow multiple origins
+const allowedOrigins = process.env.CLIENT_URL.split(",");
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); // Allow requests with no origin
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
+
+// Explicitly handle OPTIONS requests
+app.options("*", cors());
 
 // Routes
 app.use("/api/auth", authRoute);
