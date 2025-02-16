@@ -17,20 +17,23 @@ connectDB();
 app.use(cookieParser());
 app.use(express.json());
 
-
-// app.use(
-//   cors({
-//     origin: process.env.CLIENT_URL || "https://to-do-client-phi.vercel.app" || "*",
-//     credentials: true,
-//   })
-// );
-
+// CORS Configuration (Allow All Origins)
 app.use(
   cors({
     origin: "*", // Allows all origins
-    credentials: true, // Allow credentials (cookies, authorization headers)
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
+
+// Explicitly handle preflight requests (OPTIONS)
+app.options("*", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.sendStatus(200);
+});
 
 // Routes
 app.use("/api/auth", authRoute);
@@ -42,12 +45,10 @@ app.get("/", (req, res) => {
 });
 
 // Start server
-if (process.env.NODE_ENV !== "production") {
-  const PORT = process.env.PORT || 8000;
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-}
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
 // Export app for Vercel
 export default app;
