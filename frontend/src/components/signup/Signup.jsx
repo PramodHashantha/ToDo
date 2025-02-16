@@ -4,7 +4,7 @@ import HeadingComp from './HeadingComp'
 import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-
+import API_URL from '../../config/config.js'
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -16,7 +16,7 @@ const Signup = () => {
 
     const submit = async (e) =>  {
         e.preventDefault();
-        await axios.post('http://localhost:8000/api/auth/register', Inputs).then((res) => {
+        await axios.post(`${API_URL}/api/auth/register`, Inputs).then((res) => {
             if (res.data.message === 'User Already Exists'){
                 alert(res.data.message);
             }else{

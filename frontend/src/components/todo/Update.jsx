@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import API_URL from '../../config/config';
 
 const Update = ({ display, update }) => {
   const [inputs, setInputs] = useState({ title: '', body: '' });
@@ -23,7 +24,7 @@ const Update = ({ display, update }) => {
     }
 
     try {
-        await axios.put(`http://localhost:8000/api/list/updateTask/${update._id}`, inputs);
+        await axios.put(`${API_URL}/api/list/updateTask/${update._id}`, inputs);
         toast.success('Task Updated');
 
         // Optional: Reload or close the modal

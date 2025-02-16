@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { authActions } from '../../store';
 import { useEffect } from 'react';
 import axios from 'axios';
+import API_URL from "../../config/config.js"
 
 const Todo = () => {
     const [Inputs, setInputs] = useState({title: '', body: ''})
@@ -24,7 +25,7 @@ const Todo = () => {
     const fetchTasks = async () => {
         if (!id) return; // Prevent API call if no user is logged in
         try {
-            const res = await axios.get(`http://localhost:8000/api/list/getTask/${id}`);
+            const res = await axios.get(`${API_URL}/api/list/getTask/${id}`);
             setArray(res.data.list);
         } catch (error) {
             console.error('Error fetching tasks:', error);
@@ -43,7 +44,7 @@ const Todo = () => {
 
         if (id) {
             try {
-                await axios.post(`http://localhost:8000/api/list/addTask`, {
+                await axios.post(`${API_URL}/api/list/addTask`, {
                     title: Inputs.title,
                     body: Inputs.body,
                     id: id,
@@ -68,7 +69,7 @@ const Todo = () => {
             return;
         }
         try {
-            await axios.delete(`http://localhost:8000/api/list/deleteTask/${Cardid}`, { data: { id: id } });
+            await axios.delete(`${API_URL}/api/list/deleteTask/${Cardid}`, { data: { id: id } });
             toast.success('Task Deleted');
             fetchTasks();
         } catch (error) {

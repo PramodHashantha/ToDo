@@ -6,6 +6,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { authActions } from '../../store'
+import API_URL from '../../config/config.js'
 
 const Signin = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const Signin = () => {
     const submit = async (e) => {
     e.preventDefault();
     try {
-        const res = await axios.post('http://localhost:8000/api/auth/login', Inputs);
+        const res = await axios.post(`${API_URL}/api/auth/login`, Inputs);
         
         if (res.data.success) {  // Ensure login is successful before navigating
             console.log(res.data._id); 
