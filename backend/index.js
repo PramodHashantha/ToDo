@@ -19,11 +19,13 @@ app.use(express.json());
 
 
 let corsOptions = {
-   origin : ["https://to-do-client-phi.vercel.app"],
+  origin: ["https://to-do-client-phi.vercel.app"],
   credentials: true,
-}
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+app.use(cors(corsOptions));
 
-app.use(cors(corsOptions))
 
 // Routes
 app.use("/api/auth", authRoute);
