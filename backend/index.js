@@ -28,6 +28,7 @@ app.use(cors(corsOptions));
 
 
 // Routes
+app.options("*", cors(corsOptions));
 app.use("/api/auth", authRoute);
 app.use("/api/list", listRoute);
 
