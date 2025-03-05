@@ -15,11 +15,14 @@ connectDB();
 
 // CORS Configuration
 const corsOptions = {
-  origin: "https://to-do-client-phi.vercel.app", // Allow only your frontend
-  credentials: true, // Allow cookies & auth headers
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: ["https://to-do-client-phi.vercel.app", "https://todo-production-81bc.up.railway.app"],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
+
+app.use(cors(corsOptions));
+
 
 // Middleware
 app.use(cors(corsOptions));
