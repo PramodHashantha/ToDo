@@ -14,8 +14,9 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(express.json());
 app.use(cookieParser());
+app.use(express.json());
+
 
 // CORS Middleware
 const corsOptions = {
@@ -43,6 +44,7 @@ app.use((req, res, next) => {
 app.use("/api/auth", authRoute);
 app.use("/api/list", listRoute);
 
+// Root route for testing
 app.get("/", (req, res) => {
   res.send("Backend is working!");
 });
@@ -51,8 +53,9 @@ app.get("/", (req, res) => {
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 8000;
   app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(Server running on port ${PORT});
   });
 }
 
+// Export app for Vercel
 export default app;
