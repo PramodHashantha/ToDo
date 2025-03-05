@@ -14,12 +14,12 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(express.json());
 app.use(cookieParser());
+app.use(express.json());
 
-// CORS Options
+
 const corsOptions = {
-  origin: "https://to-do-client-phi.vercel.app",
+  origin: ["https://to-do-client-phi.vercel.app"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
@@ -27,19 +27,29 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// Preflight Request Middleware
-app.options("*", cors(corsOptions));
 
-// Test Route
+app.use((req, res, next) => {
+  if (req.method === "OPTIONS") {
+    res.header("Access-Control-Allow-Origin", "https://to-do-client-phi.vercel.app");
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    return res.status(200).json({});
+  }
+  next();
+});
+
+
+// Routes
+app.use("/api/auth", authRoute);
+app.use("/api/list", listRoute);
+
+// Root route for testing
 app.get("/", (req, res) => {
   res.send("Backend is working!");
 });
 
-// API Routes
-app.use("/api/auth", authRoute);
-app.use("/api/list", listRoute);
-
-// Start Server
+// Start server
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 8000;
   app.listen(PORT, () => {
@@ -47,4 +57,5 @@ if (process.env.NODE_ENV !== "production") {
   });
 }
 
+// Export app for Vercel
 export default app;
