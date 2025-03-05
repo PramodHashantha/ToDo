@@ -13,32 +13,18 @@ const app = express();
 // Connect to database
 connectDB();
 
-// Middleware
-app.use(cookieParser());
-app.use(express.json());
-
-
+// CORS Configuration
 const corsOptions = {
-  origin: ["https://to-do-client-phi.vercel.app"],
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  origin: "https://to-do-client-phi.vercel.app", // Allow only your frontend
+  credentials: true, // Allow cookies & auth headers
+  methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
+// Middleware
 app.use(cors(corsOptions));
-
-
-app.use((req, res, next) => {
-  if (req.method === "OPTIONS") {
-    res.header("Access-Control-Allow-Origin", "https://to-do-client-phi.vercel.app");
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    return res.status(200).json({});
-  }
-  next();
-});
-
+app.use(cookieParser());
+app.use(express.json());
 
 // Routes
 app.use("/api/auth", authRoute);
