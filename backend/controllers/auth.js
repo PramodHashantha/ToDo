@@ -18,28 +18,6 @@ app.use(cookieParser());
 app.use(express.json());
 
 
-// CORS Middleware
-const corsOptions = {
-  origin: ["https://to-do-client-phi.vercel.app"],
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-};
-
-app.use(cors(corsOptions));
-
-// Fix Preflight Requests (OPTIONS)
-app.use((req, res, next) => {
-  if (req.method === "OPTIONS") {
-    res.header("Access-Control-Allow-Origin", "https://to-do-client-phi.vercel.app");
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    return res.status(200).json({});
-  }
-  next();
-});
-
 // Routes
 app.use("/api/auth", authRoute);
 app.use("/api/list", listRoute);
