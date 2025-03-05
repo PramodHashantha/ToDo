@@ -18,12 +18,12 @@ app.use(cookieParser());
 app.use(express.json());
 
 
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL || "https://to-do-client-phi.vercel.app",
-    credentials: true,
-  })
-);
+let corsOptions = {
+   origin : ["https://to-do-client-phi.vercel.app"],
+  credentials: true,
+}
+
+app.use(cors(corsOptions))
 
 // Routes
 app.use("/api/auth", authRoute);
