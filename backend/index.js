@@ -15,7 +15,7 @@ connectDB();
 
 // CORS Configuration
 const corsOptions = {
-  origin: ["https://to-do-client-phi.vercel.app", "https://todo-production-81bc.up.railway.app"],
+  origin: ["https://to-do-client-phi.vercel.app"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
