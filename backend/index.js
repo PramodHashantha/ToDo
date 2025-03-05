@@ -14,30 +14,32 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(cookieParser());
 app.use(express.json());
+app.use(cookieParser());
 
-
-let corsOptions = {
-  origin: ["https://to-do-client-phi.vercel.app"],
+// CORS Options
+const corsOptions = {
+  origin: "https://to-do-client-phi.vercel.app",
   credentials: true,
-  methods: ["OPTIONS", "GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
+
 app.use(cors(corsOptions));
 
-
-// Routes
+// Preflight Request Middleware
 app.options("*", cors(corsOptions));
-app.use("/api/auth", authRoute);
-app.use("/api/list", listRoute);
 
-// Root route for testing
+// Test Route
 app.get("/", (req, res) => {
   res.send("Backend is working!");
 });
 
-// Start server
+// API Routes
+app.use("/api/auth", authRoute);
+app.use("/api/list", listRoute);
+
+// Start Server
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 8000;
   app.listen(PORT, () => {
@@ -45,5 +47,4 @@ if (process.env.NODE_ENV !== "production") {
   });
 }
 
-// Export app for Vercel
 export default app;
