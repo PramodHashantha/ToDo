@@ -1,3 +1,3 @@
-const API_URL = "https://todo-production-81bc.up.railway.app";
+const API_URL = "https://to-do-server-ashen.vercel.app";
 
 export default API_URL;
