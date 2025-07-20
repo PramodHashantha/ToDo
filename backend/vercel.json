@@ -9,14 +9,18 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/index",
+      "dest": "/index.js",
       "headers": {
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": "https://to-do-client-phi.vercel.app",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type, Authorization",
         "Access-Control-Allow-Credentials": "true",
         "Access-Control-Max-Age": "86400"
       }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.js"
     }
   ]
 }
